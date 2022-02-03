@@ -12,9 +12,9 @@
 
 namespace wave_helper {
   typedef struct AudioFileData {
-    char *filename;
+    char *file_name;
     unsigned int sample_rate;
-    int data;
+    int *data;
     unsigned int data_length;
   } WaveAudio;
 
@@ -36,7 +36,7 @@ namespace wave_helper {
       int subchunk2_size; //size of data
 
     public:
-      void make_audio (WaveAudio wave);
+      void make_audio (WaveAudio *wave);
 
       WaveAudio audio_reader ();
   };

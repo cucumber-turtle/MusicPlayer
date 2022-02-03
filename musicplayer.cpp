@@ -2,7 +2,6 @@
 #include <fstream>
 #include <stdlib.h>
 #include <math.h>
-//#include "wav.hpp" // helper header file from ECS
 #include <string>
 #include "wavefilehelper.hpp"
 
@@ -109,9 +108,7 @@ int main(int argc, char *argv[]){
 	calculate_waveform(waveform, timeInterval, sample_rate, n_samples, duration,
 		A, song_text);
 
-	//sound.MakeWavFromInt("tone.wav", sample_rate, waveform, n_samples);
 	wave_helper::WaveAudio wave("tone2.wav", sample_rate, waveform, n_samples);
-	//wave_helper::WaveAudio wave = {"tone2.wav", sample_rate, waveform, n_samples};
 	helper.make_audio(&wave);
 
 	return 0;

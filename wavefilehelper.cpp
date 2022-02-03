@@ -8,6 +8,7 @@
 
 #include "wavefilehelper.hpp"
 #include <fstream>
+#include <iostream>
 
 namespace wave_helper {
   void int_to_little_endian (int number, int offset, char *data, int length) {
@@ -59,7 +60,8 @@ namespace wave_helper {
     // wave data to little endian
     int offset = 44;
     for (int i = 0; i < wave->data_length; i++) {
-      int_to_little_endian(*wave->data++, offset +i, file_data, 2);
+      int_to_little_endian(*wave->data++, offset, file_data, 2);
+      offset+=2;
     }
 
     std::ofstream output;

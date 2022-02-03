@@ -2,11 +2,13 @@
 #include <fstream>
 #include <stdlib.h>
 #include <math.h>
-#include "wav.hpp" // helper header file from ECS
+//#include "wav.hpp" // helper header file from ECS
+#include <string>
+#include "wavefilehelper.hpp"
 
 int count_lines(std::ifstream &file) {
 	// counts the number of lines in the text file
-	string line;
+	std::string line;
 	int count = 0;
 	if (file.is_open() ) {
 		while (! file.eof () ) {
@@ -24,13 +26,13 @@ void read_notes(std::ifstream &file, double song_text[]) {
 	// double type variable then enters into array until loop ends
 	int loop = 0;
 
-	string line;
+	std::string line;
 	if (file.is_open())
     {
         while (! file.eof() )
         {
             std::getline (file, line);
-            string music_note = line;
+            std::string music_note = line;
             song_text[loop] = atof (music_note.c_str()); // frequency
             loop++;
         }
@@ -86,7 +88,8 @@ void calculate_waveform(int waveform[], double timeInterval, int sample_rate,
 }
 
 int main(int argc, char *argv[]){
-	WavSound sound;
+	//WavSound sound;
+	wave_helper::WaveFileHelper helper;
 	std::ifstream notesfile (argv[1]);
 	int notes = count_lines(notesfile);
 
@@ -97,16 +100,19 @@ int main(int argc, char *argv[]){
 	int duration = 1; // each note's duration is 1 second
 	const int sample_rate = 4140; // samples per second
 	double timeInterval = 1.0/sample_rate;
-	int n_samples = duration * notes * sample_rate;
+	unsigned int n_samples = duration * notes * sample_rate;
 
 	double A[sample_rate]; // array for ADSR sound envelope
 	create_sound_envelope(A, sample_rate, duration);
-
 
 	int waveform[n_samples]; // creates the array of size n_samples
 	calculate_waveform(waveform, timeInterval, sample_rate, n_samples, duration,
 		A, song_text);
 
-	sound.MakeWavFromInt("tone.wav", sample_rate, waveform, n_samples);
+	//sound.MakeWavFromInt("tone.wav", sample_rate, waveform, n_samples);
+	wave_helper::WaveAudio wave("tone2.wav", sample_rate, waveform, n_samples);
+	//wave_helper::WaveAudio wave = {"tone2.wav", sample_rate, waveform, n_samples};
+	helper.make_audio(&wave);
+
 	return 0;
 }

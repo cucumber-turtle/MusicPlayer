@@ -11,12 +11,18 @@
 #include <string>
 
 namespace wave_helper {
-  typedef struct AudioFileData {
-    char *file_name;
+  struct WaveAudio {
+    std::string file_name;
     unsigned int sample_rate;
-    int *data;
+    int *data; 
     unsigned int data_length;
-  } WaveAudio;
+    WaveAudio(std::string file_name, unsigned int sample_rate, int *data,
+      unsigned int data_length):
+      file_name(file_name),
+      sample_rate(sample_rate),
+      data(data),
+      data_length(data_length) {}
+  };
 
   class WaveFileHelper{
     private:
@@ -27,7 +33,7 @@ namespace wave_helper {
       std::string subchunk1_id = "fmt ";
       int subchunk1_size = 16;
       int audio_format = 1; // PCM
-      int num_channels = 2;
+      int num_channels = 1;
       int sample_rate;
       int byte_rate;
       int block_align;

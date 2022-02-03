@@ -8,37 +8,44 @@
 
 #ifndef WAVE_FILE_HELPER
 #define WAVE_FILE_HELPER
+#include <string>
 
-namespace wavehelper {
-  typedef struct AudioFileData {
-    char *filename;
+namespace wave_helper {
+  struct WaveAudio {
+    std::string file_name;
     unsigned int sample_rate;
-    int data;
+    int *data; 
     unsigned int data_length;
-  } WaveAudio;
+    WaveAudio(std::string file_name, unsigned int sample_rate, int *data,
+      unsigned int data_length):
+      file_name(file_name),
+      sample_rate(sample_rate),
+      data(data),
+      data_length(data_length) {}
+  };
 
-  class WavefileHelper{
-  private:
-    //Fields
-    char *chunk_id = "RIFF";
-    int file_size;
-    char *format = "WAVE";
-    char *subchunk1_id = "fmt ";
-    int subchunk1_size = 16;
-    int audio_format = 1; // PCM
-    int num_channels = 2;
-    int sample_rate;
-    int byte_rate;
-    int block_align;
-    int bits_per_sample;
-    char *subchunk2_id = "data";
-    int subchunk2_size; //size of data
-    
-  public:
-    void make_audio (WaveAudio wave);
+  class WaveFileHelper{
+    private:
+      //Fields
+      std::string chunk_id = "RIFF";
+      int file_size;
+      std::string format = "WAVE";
+      std::string subchunk1_id = "fmt ";
+      int subchunk1_size = 16;
+      int audio_format = 1; // PCM
+      int num_channels = 1;
+      int sample_rate;
+      int byte_rate;
+      int block_align;
+      int bits_per_sample;
+      std::string subchunk2_id = "data";
+      int subchunk2_size; //size of data
 
-    WaveAudio audio_reader ();
-  }
+    public:
+      void make_audio (WaveAudio *wave);
+
+      WaveAudio audio_reader ();
+  };
 }
 
 #endif

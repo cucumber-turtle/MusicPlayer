@@ -9,14 +9,15 @@
 #ifndef WAVE_FILE_HELPER
 #define WAVE_FILE_HELPER
 #include <string>
+#include <vector>
 
 namespace wave_helper {
   struct WaveAudio {
     std::string file_name;
     unsigned int sample_rate;
-    int *data; 
+    std::vector<double> *data; 
     unsigned int data_length;
-    WaveAudio(std::string file_name, unsigned int sample_rate, int *data,
+    WaveAudio(std::string file_name, unsigned int sample_rate, std::vector<double> *data,
       unsigned int data_length):
       file_name(file_name),
       sample_rate(sample_rate),
@@ -42,7 +43,7 @@ namespace wave_helper {
       int subchunk2_size; //size of data
 
     public:
-      void make_audio (WaveAudio *wave);
+      bool make_audio (WaveAudio *wave);
 
       WaveAudio audio_reader ();
   };
